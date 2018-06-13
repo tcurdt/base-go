@@ -9,5 +9,5 @@ all:
 	@tar czvf dist/name-windows-amd64-1.0.0.tgz README.md
 
 release:
-	@git tag `head -1 .version`
+	@git tag -a `head -1 .version` -m "releasing `head -1 .version`"
 	@git push --tags origin master
