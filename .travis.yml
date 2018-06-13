@@ -41,7 +41,7 @@ deploy:
   on:
     # repo: tcurdt/go-base
     tags: true
-    # condition: $TRAVIS_GO_VERSION =~ ^1\.10\.[0-9x]+$
+    condition: $TRAVIS_GO_VERSION =~ ^1\.10\.[0-9x]+$
 after_deploy:
 - echo "after_deploy"
 - set +e

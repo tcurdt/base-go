@@ -7,3 +7,7 @@ all:
 	@tar czvf dist/name-linux-arm64-1.0.0.tgz README.md
 	@tar czvf dist/name-windows-386-1.0.0.tgz README.md
 	@tar czvf dist/name-windows-amd64-1.0.0.tgz README.md
+
+release:
+	@git tag `head -1 .version`
+	@git push --tags origin master
