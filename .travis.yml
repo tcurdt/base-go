@@ -1,0 +1,50 @@
+language: go
+go:
+- 1.10.x
+
+branches:
+  only:
+  - master
+  - /^v\d+\.\d+.\d+$/
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+before_install:
+- echo "before_install"
+install:
+- echo "install"
+after_install:
+- echo "after_install"
+
+before_script:
+- echo "before_script"
+script:
+- env
+- make
+after_success:
+- echo "after_success"
+
+before_deploy:
+- set -e
+- echo "before_deploy"
+deploy:
+  provider: releases
+  api_key:
+    secure: O+g6cTDiytXcixqc2Ux2qzLoeCjSAL9T8+lgQI9xcT6HXJxcaocjmUvuRltNdMXYYcdytb6FQ3vA/kkp0Tg43sk+xeXUT867bIp2U2FMaGSKttbC/IXk/7wGLB0fHwKV3JpkyhABwklyrrZ6G4ByCCv+GOX3joeo6fTwaKV+cKFoUvkQvUFEw4r1l3bhiDNO4wVA5fa75TkyG5OvEXFWOCOVhe54sWvAdUP1wuSQgLzI39+eKTVvKYm6JpFEiY+WEk9IjIo9H7/hkNkR0Efdb3qR+g+W/jpQuNvYDHzK2w1cxWk3c1tIlnVzlhOlDxi+jxPT6MeNVrRm2TFSDQOSmuG1i7zlHSIPr6lqiCzZ2oShtNx59tEhIbxGkMkkPM8JVRQXOlGam2X+zUzywW5LYx9ALt+Nv05rF81Kr16OujuajlEtZAejYeVjLrdqiFqXFtnFU8D+1/CPNac4Ku/GeV2RmM8GCQYcPbrFEid8C+cI5KbauoYjv268/68tlQcR+xiQRuQVZXC/WbX/369t9Iih6ncGahhNNyIqNUv6Abw4nVqy01XiuUDBpiO5CuY3PwiHPraN5sEO6L6t+AqPBFvD1xjOTh/sL4nNDMLaJ8nwsRTl6RdZT/eR2aDlalarM4AOzqilqqA5YuzAasvOlFAQ2iPJQD2V8EUp5OZDriM=
+  skip_cleanup: true
+  file_glob: true
+  file:
+  - "dist/*-*-*-*.tgz"
+  on:
+    # repo: tcurdt/go-base
+    tags: true
+    # condition: $TRAVIS_GO_VERSION =~ ^1\.10\.[0-9x]+$
+after_deploy:
+- echo "after_deploy"
+- set +e
+
+after_script:
+- echo "after_script"
