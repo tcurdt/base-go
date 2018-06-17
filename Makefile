@@ -1,15 +1,31 @@
-version=`head -1 .version`
+include .project
 
-all:
-	@rm -rf dist && mkdir dist
-	@tar czvf dist/name-darwin-amd64-$(version).tgz README.md
-	@tar czvf dist/name-linux-386-$(version).tgz README.md
-	@tar czvf dist/name-linux-amd64-$(version).tgz README.md
-	@tar czvf dist/name-linux-arm-$(version).tgz README.md
-	@tar czvf dist/name-linux-arm64-$(version).tgz README.md
-	@tar czvf dist/name-windows-386-$(version).tgz README.md
-	@tar czvf dist/name-windows-amd64-$(version).tgz README.md
+BUILDS=\
+  darwin-amd64  \
+  linux-386     \
+  linux-amd64   \
+  linux-arm     \
+  linux-arm64   \
+  windows-386   \
+  windows-amd64 \
 
-release:
-	@git tag -a $(version) -m "releasing $(version)"
+DISTS=$(BUILDS:%=dist/$(NAME)-%-$(VERSION).tgz)
+
+
+.PHONY:
+all: $(DISTS)
+
+dist:
+	@mkdir -p dist
+
+$(DISTS): dist
+	@tar czf $@ README.md
+
+.PHONY: clean
+clean:
+	@rm -rf dist
+
+.PHONY: release
+release: all
+	@git tag -a $(VERSION) -m "releasing $(VERSION)"
 	@git push --tags origin master
